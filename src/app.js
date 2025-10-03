@@ -1,27 +1,17 @@
 import express from 'express';
-
+import indexRouter from './routes/index.js';
+import userRouter from './routes/users.js';
+import productRouter from './routes/productRouter.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 기본 라우트
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use('/',indexRouter);
+app.use('/users',userRouter);
 
+app.use('/product',productRouter);
 
-app.get('/api/status',(req,res)=>{
-    res.status(200).json({status : 'OK', timestamp : Date.now()});
-});
-
-app.get('/hello',(req,res)=>{
-    res.send("안녕하세요, Express!");
-})
-
-app.get('/api/time',(req,res)=>{
-    const date = new Date();
-    res.json({time : date.toISOString()});
+app.listen(PORT, ()=>{
+  console.log(`Server is Running on http://localhost:${PORT}`);
 })
