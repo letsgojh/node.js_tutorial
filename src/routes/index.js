@@ -1,25 +1,8 @@
 import { Router } from "express";
+import productRouter from "./productRouter.js";
 
-const indexRouter = Router();
+const router = Router();
 
-indexRouter.get('/',(req,res)=>{
-    const {active, page} = req.query;
-    res.json({
-        message: "User List",
-        filters: { active, page }
-    });
-})
+router.use('/products',productRouter);
 
-indexRouter.post('/',(req,res)=>{
-        res.setHeader("Content-Type", "application/json; charset=utf-8");
-        const {name, email} = req.body;
-        res.status(201).json({
-        message: "User Created",
-        data: {
-            name: name,
-            email: email
-        }
-    });
-})
-
-export default indexRouter;
+export default router;
