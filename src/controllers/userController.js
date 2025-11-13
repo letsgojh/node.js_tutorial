@@ -1,4 +1,5 @@
 import pool from '../config/db.js';
+import HttpError from '../error/httpError.js';
 
 //전체조회
 export const getAllUsers = async (req,res,next)=>{
@@ -7,7 +8,7 @@ export const getAllUsers = async (req,res,next)=>{
         res.status(200).json({data : rows});
         //select문은 rows와 fileds 필드 반환, rows필드만 있으면된다.
     }catch(err){
-        next(err);
+        next(new HttpError(500, 'DB 조회 실패'));
     }
 }
 
@@ -23,7 +24,7 @@ export const getUserById = async (req,res,next)=>{
 
         return res.status(200).json({data : rows});
     }catch(err){
-        next(err);
+        next(new HttpError(500, "DB 삽입 실패"));
     }
 }
 
@@ -89,7 +90,7 @@ export const deleteUser = async (req,res,next)=>{
     const id = Number(req.params.id);
 
     if(!id){
-        return res.status(400).json({data : "Invalid ID"});
+        return next(new HttpError(400,"Invalid Id"));
     }
 
     try{
